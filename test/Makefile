@@ -1,7 +1,12 @@
 TARGETS=ThreadPoolTest
 
-CPP_FLAGS=-W -Wall -std=c++14 -stdlib=libc++ \
-		  -L/usr/lib -lboost_thread-mt -lboost_system
+CPP_FLAGS=-W -Wall \
+		  -std=c++14 \
+		  -L/usr/lib \
+		  -pthread
+ifeq ($(HAS_LIBCXX11), 1)
+	CPP_FLAGS += -stdlib=libc++
+endif
 
 all: $(TARGETS)
 
