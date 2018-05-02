@@ -33,7 +33,7 @@ public:
         if(_queue.empty()) {
             return false;
         }
-        
+
         poppedValue = std::move(_queue.front());
         _queue.pop();
         return true;
@@ -44,7 +44,7 @@ public:
         while(_queue.empty()) {
             _condition.wait(lock);
         }
-        
+
         poppedValue =_queue.front();
         _queue.pop();
     }
