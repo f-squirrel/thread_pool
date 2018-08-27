@@ -35,7 +35,8 @@ public:
         _done = true;
     }
 
-    size_t size() const { return _threads.size(); }
+    size_t capacity() const { return _threads.size(); }
+	size_t queueSize() const { return _workQueue.size(); }
 
     template<typename FunctionType>
     std::future<typename std::result_of<FunctionType()>::type>

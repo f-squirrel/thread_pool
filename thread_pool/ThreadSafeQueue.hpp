@@ -28,6 +28,11 @@ public:
         return _queue.empty();
     }
 
+	bool size() const {
+        std::unique_lock<std::mutex> lock{_mutex};
+        return _queue.size();
+	}
+
     bool try_pop(Data& poppedValue) {
         std::unique_lock<std::mutex> lock{_mutex};
         if(_queue.empty()) {

@@ -48,20 +48,19 @@ BOOST_AUTO_TEST_CASE( RunMoreTasksThanThreads ) {
     }
 }
 
+struct IntegerTask : public Task {
+	IntegerTask(std::set<std::thread::id>& s, std::mutex& m) : Task(s, m) {}
+	std::thread::id operator()() {
+		{
+			std::unique_lock<std::mutex> lock{_mutex};
+			_ids.insert(std::this_thread::get_id());
+		}
+		std::this_thread::sleep_for(1s);
+		return std::this_thread::get_id();
+	}
+};
+
 BOOST_AUTO_TEST_CASE( ReturnIntegers ) {
-
-    struct IntegerTask : public Task {
-        IntegerTask(std::set<std::thread::id>& s, std::mutex& m) : Task(s, m) {}
-        std::thread::id operator()() {
-            {
-                std::unique_lock<std::mutex> lock{_mutex};
-                _ids.insert(std::this_thread::get_id());
-            }
-            std::this_thread::sleep_for(1s);
-            return std::this_thread::get_id();
-        }
-    };
-
     std::mutex mutex;
     std::set<std::thread::id> set;
     const size_t TASK_COUNT{4u};
@@ -74,6 +73,41 @@ BOOST_AUTO_TEST_CASE( ReturnIntegers ) {
 
         std::this_thread::sleep_for(1s);
         BOOST_REQUIRE( v.size() == TASK_COUNT );
+        for(size_t i = 0; i < TASK_COUNT; ++i) {
+            std::cout << v[i].get() << "\n";
+        }
+    }
+}
+
+struct StringTask {
+    StringTask(std::set<std::thread::id>& s, std::mutex& m): _ids(s), _mutex(m) {}
+	std::string operator()() {
+		const auto id = std::this_thread::get_id();
+        {
+            std::unique_lock<std::mutex> lock{_mutex};
+            _ids.insert(id);
+        }
+        std::this_thread::sleep_for(1s);
+		return "hash string: " + std::to_string(std::hash<std::thread::id>{}(std::this_thread::get_id()));
+    }
+    std::set<std::thread::id>& _ids;
+    std::mutex& _mutex;
+};
+
+BOOST_AUTO_TEST_CASE( VariousTypesOfTasks ) {
+    std::mutex mutex;
+    std::set<std::thread::id> set;
+    const size_t TASK_COUNT{4u};
+    std::vector<std::future<typename std::result_of<StringTask()>::type>> v;
+    {
+        ThreadPool pool{4u};
+        for(size_t i = 0; i < TASK_COUNT; ++i) {
+            pool.submit(IntegerTask(set, mutex));
+        }
+        for(size_t i = 0; i < TASK_COUNT; ++i) {
+            v.push_back(pool.submit(StringTask(set, mutex)));
+        }
+        std::this_thread::sleep_for(1s);
         for(size_t i = 0; i < TASK_COUNT; ++i) {
             std::cout << v[i].get() << "\n";
         }
