@@ -41,3 +41,6 @@
 #user local config
 *.user
 *.user.*
+
+#YCM compile flags
+compile_commands.json
