@@ -16,9 +16,7 @@ class FunctionWrapper {
     struct ImplType: ImplBase {
         F f;
         ImplType(F&& f_): f(std::move(f_)) {}
-
-        using ResultType = typename std::result_of<F()>::type;
-        ResultType call() override { return f(); }
+        void call() final { return f(); }
     };
 public:
     template<typename F>
