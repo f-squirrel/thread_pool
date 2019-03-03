@@ -13,9 +13,9 @@ public:
     {}
 
     ~JoinThreads() {
-        for(size_t i = 0; i < _threads.size(); ++i) {
-            if(_threads[i].joinable()) {
-                _threads[i].join();
+        for(auto& t : _threads) {
+            if(t.joinable()) {
+                t.join();
             }
         }
     }
