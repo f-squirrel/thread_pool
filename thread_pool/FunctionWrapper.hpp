@@ -2,7 +2,6 @@
 
 #include <memory>
 
-
 namespace thread_pool {
 
 class FunctionWrapper {
@@ -12,27 +11,23 @@ class FunctionWrapper {
     };
     std::unique_ptr<ImplBase> impl;
 
-    template<typename F>
-    struct ImplType: ImplBase {
+    template <typename F>
+    struct ImplType : ImplBase {
         F f;
-        ImplType(F&& f_): f(std::move(f_)) {}
+        ImplType(F&& f_) : f(std::move(f_)) {}
         void call() final { return f(); }
     };
-public:
-    template<typename F>
-    FunctionWrapper(F&& f):
-        impl(std::make_unique<ImplType<F>>(std::move(f)))
-    {}
 
-    auto operator()() {
-        impl->call();
-    }
+public:
+    template <typename F>
+    FunctionWrapper(F&& f)
+        : impl(std::make_unique<ImplType<F>>(std::move(f))) {}
+
+    auto operator()() { impl->call(); }
 
     FunctionWrapper() = default;
 
-    FunctionWrapper(FunctionWrapper&& other):
-        impl(std::move(other.impl))
-    {}
+    FunctionWrapper(FunctionWrapper&& other) : impl(std::move(other.impl)) {}
 
     FunctionWrapper& operator=(FunctionWrapper&& other) {
         impl = std::move(other.impl);
@@ -40,8 +35,7 @@ public:
     }
 
     FunctionWrapper(const FunctionWrapper&) = delete;
-    FunctionWrapper(FunctionWrapper&) = delete;
+    FunctionWrapper(FunctionWrapper&)       = delete;
     FunctionWrapper& operator=(const FunctionWrapper&) = delete;
 };
-}
-
+} // namespace thread_pool

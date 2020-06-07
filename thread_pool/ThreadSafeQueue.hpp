@@ -1,12 +1,11 @@
 #pragma once
 
-#include <queue>
 #include <mutex>
-
+#include <queue>
 
 namespace thread_pool {
 
-template<typename Data>
+template <typename Data>
 class ThreadSafeQueue {
 public:
     void push(Data const& data) {
@@ -16,7 +15,7 @@ public:
         _condition.notify_one();
     }
 
-    void push( Data&& data ) {
+    void push(Data&& data) {
         std::unique_lock<std::mutex> lock{_mutex};
         _queue.push(std::move(data));
         lock.unlock();
@@ -28,14 +27,14 @@ public:
         return _queue.empty();
     }
 
-	bool size() const {
+    bool size() const {
         std::unique_lock<std::mutex> lock{_mutex};
         return _queue.size();
-	}
+    }
 
     bool try_pop(Data& poppedValue) {
         std::unique_lock<std::mutex> lock{_mutex};
-        if(_queue.empty()) {
+        if (_queue.empty()) {
             return false;
         }
 
@@ -46,17 +45,17 @@ public:
 
     void wait_and_pop(Data& poppedValue) {
         std::unique_lock<std::mutex> lock{_mutex};
-        while(_queue.empty()) {
+        while (_queue.empty()) {
             _condition.wait(lock);
         }
 
-        poppedValue =_queue.front();
+        poppedValue = _queue.front();
         _queue.pop();
     }
+
 private:
-    std::queue<Data>        _queue;
-    mutable std::mutex      _mutex;
+    std::queue<Data> _queue;
+    mutable std::mutex _mutex;
     std::condition_variable _condition;
 };
-}
-
+} // namespace thread_pool
