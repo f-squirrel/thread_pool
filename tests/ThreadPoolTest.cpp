@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <thread_pool/ThreadPool.hpp>
+
 #include <chrono>
 #include <iostream>
 #include <mutex>

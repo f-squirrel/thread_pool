@@ -3,8 +3,8 @@
 #include <future>
 #include <memory>
 
-#include "FunctionWrapper.hpp"
 #include "JoinThreads.hpp"
+#include "TaskWrapper.hpp"
 #include "ThreadSafeQueue.hpp"
 
 namespace thread_pool {
@@ -46,13 +46,13 @@ public:
     }
 
     ThreadPool(const ThreadPool&) = delete;
-    ThreadPool(ThreadPool&)       = delete;
+    ThreadPool(ThreadPool&) = delete;
     ThreadPool& operator=(const ThreadPool&) = delete;
 
 private:
     void workerThread() {
         while (!_done) {
-            FunctionWrapper task;
+            TaskWrapper task;
             if (_workQueue.try_pop(task)) {
                 task();
             } else {
@@ -63,7 +63,7 @@ private:
 
 private:
     std::atomic_bool _done;
-    ThreadSafeQueue<FunctionWrapper> _workQueue;
+    ThreadSafeQueue<TaskWrapper> _workQueue;
     std::vector<std::thread> _threads;
     JoinThreads _joiner;
 };
