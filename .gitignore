@@ -44,3 +44,4 @@
 
 #YCM compile flags
 compile_commands.json
+build/
