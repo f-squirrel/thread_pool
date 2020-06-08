@@ -14,13 +14,13 @@ class TaskWrapper {
     template <typename F>
     struct ImplType : ImplBase {
         F f;
-        ImplType(F&& f_) : f(std::move(f_)) {}
+        ImplType(F&& f_) : f{std::move(f_)} {}
         void call() final { f(); }
     };
 
 public:
     template <typename F>
-    TaskWrapper(F&& f) : impl(std::make_unique<ImplType<F>>(std::move(f))) {}
+    TaskWrapper(F&& f) : impl{std::make_unique<ImplType<F>>(std::move(f))} {}
     TaskWrapper() = default;
     TaskWrapper(TaskWrapper&& other) = default;
     TaskWrapper& operator=(TaskWrapper&& other) = default;

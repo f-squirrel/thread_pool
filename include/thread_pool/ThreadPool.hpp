@@ -13,7 +13,7 @@ class ThreadPool {
 public:
     explicit ThreadPool(
         size_t threadCount = std::thread::hardware_concurrency())
-        : _done(false), _joiner(_threads) {
+        : _done{false}, _joiner{_threads} {
         if (0u == threadCount) {
             threadCount = 4u;
         }
@@ -21,7 +21,7 @@ public:
         try {
             for (size_t i = 0; i < threadCount; ++i) {
                 _threads.push_back(
-                    std::thread(&ThreadPool::workerThread, this));
+                    std::thread{&ThreadPool::workerThread, this});
             }
         } catch (...) {
             _done = true;
@@ -35,14 +35,12 @@ public:
     size_t queueSize() const { return _workQueue.size(); }
 
     template <typename FunctionType>
-    std::future<typename std::result_of<FunctionType()>::type>
-    submit(FunctionType f) {
+    auto submit(FunctionType f) {
         using ResultType = typename std::result_of<FunctionType()>::type;
-
-        std::packaged_task<ResultType()> task(std::move(f));
-        std::future<ResultType> res(task.get_future());
+        std::packaged_task<ResultType()> task{std::move(f)};
+        auto future = task.get_future();
         _workQueue.push(std::move(task));
-        return res;
+        return future;
     }
 
     ThreadPool(const ThreadPool&) = delete;

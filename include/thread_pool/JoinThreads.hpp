@@ -8,7 +8,7 @@ namespace thread_pool {
 class JoinThreads {
 public:
     explicit JoinThreads(std::vector<std::thread>& threads)
-        : _threads(threads) {}
+        : _threads{threads} {}
 
     ~JoinThreads() {
         for (auto& t : _threads) {
