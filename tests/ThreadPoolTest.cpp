@@ -142,3 +142,8 @@ TEST(ThreadPool, capacity) {
     ThreadPool pool{4u};
     EXPECT_EQ(pool.capacity(), 4u);
 }
+
+TEST(ThreadPool, EmptyQueue) {
+    ThreadPool pool{4u};
+    std::this_thread::sleep_for(1s);
+}

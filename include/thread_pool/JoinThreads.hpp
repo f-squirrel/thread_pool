@@ -12,9 +12,7 @@ public:
 
     ~JoinThreads() {
         for (auto& t : _threads) {
-            if (t.joinable()) {
-                t.join();
-            }
+            t.join();
         }
     }
 

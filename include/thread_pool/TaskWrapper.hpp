@@ -21,12 +21,6 @@ class TaskWrapper {
 public:
     template <typename F>
     TaskWrapper(F&& f) : impl{std::make_unique<ImplType<F>>(std::move(f))} {}
-    TaskWrapper() = default;
-    TaskWrapper(TaskWrapper&& other) = default;
-    TaskWrapper& operator=(TaskWrapper&& other) = default;
-    TaskWrapper(const TaskWrapper&) = delete;
-    TaskWrapper(TaskWrapper&) = delete;
-    TaskWrapper& operator=(const TaskWrapper&) = delete;
 
     auto operator()() { impl->call(); }
 };
