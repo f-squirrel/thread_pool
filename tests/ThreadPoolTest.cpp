@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include <stdexcept>
 #include <thread_pool/ThreadPool.hpp>
 
 #include <chrono>
@@ -135,6 +136,17 @@ TEST(ThreadPool, Lambdas) {
             EXPECT_EQ(i, v[i].get());
         }
         EXPECT_EQ(pool.queueSize(), 0u);
+    }
+}
+
+TEST(ThreadPool, Exception) {
+    ThreadPool pool{1u};
+    auto f = pool.submit([] { throw std::runtime_error{"Error"}; });
+
+    try {
+        f.get();
+    } catch (std::runtime_error& e) {
+        EXPECT_STREQ(e.what(), "Error");
     }
 }
 
