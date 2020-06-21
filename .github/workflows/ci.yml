@@ -27,6 +27,10 @@ jobs:
       run: |
           mkdir build && cd build
           cmake ..
+    - name: Check format
+      run: |
+          cd build
+          make format-check
     - name: Build
       run: |
           cd build

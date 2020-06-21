@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [[ -n $2 ]]; then
     find $1 -path ${1}/build -prune -o \( -name '*.hpp' -or -name '*.cpp' \) \
@@ -9,7 +9,7 @@ else
       | grep "<replacement offset" \
       | wc -l)
     if [ ${NUMBER_OF_CHANGES} -ne 0 ]; then
-      echo "Code format changes needed"
+      echo "Code format changes needed. Run `make format`."
       exit 1
     else
       echo "No format changes needed"
