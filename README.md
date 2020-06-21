@@ -1,3 +1,5 @@
+[![CI](https://github.com/f-squirrel/thread_pool/workflows/CI/badge.svg)](https://github.com/f-squirrel/thread_pool/actions)
+
 Thread Pool
 ===========
 
