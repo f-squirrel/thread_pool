@@ -20,4 +20,6 @@ if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()
 
+add_subdirectory(scripts)
+
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/thread_pool DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
