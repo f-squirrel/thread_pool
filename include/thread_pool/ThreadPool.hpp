@@ -1,6 +1,7 @@
 #pragma once
 
 #include <condition_variable>
+#include <functional>
 #include <future>
 #include <mutex>
 #include <queue>
@@ -42,10 +43,10 @@ public:
         return _queue.q.size();
     }
 
-    template <typename FunctionType>
-    auto submit(FunctionType f) {
-        using ResultType = typename std::result_of<FunctionType()>::type;
-        std::packaged_task<ResultType()> task{std::move(f)};
+    template <typename FunctionT, typename... Args>
+    auto submit(FunctionT f, Args... args) {
+        using ResultT = typename std::result_of<FunctionT(Args...)>::type;
+        std::packaged_task<ResultT()> task{std::bind(f, args...)};
         auto future = task.get_future();
         {
             std::lock_guard<std::mutex> l{_queue.m};

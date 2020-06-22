@@ -159,3 +159,13 @@ TEST(ThreadPool, EmptyQueue) {
     ThreadPool pool{4u};
     std::this_thread::sleep_for(1s);
 }
+
+static int sum(int a, int b) {
+    return a + b;
+}
+
+TEST(ThreadPool, FunctionWithArgs) {
+    ThreadPool pool{4u};
+    auto f = pool.submit(sum, 2, 2);
+    EXPECT_EQ(f.get(), 4);
+}
