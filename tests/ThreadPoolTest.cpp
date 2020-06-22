@@ -143,11 +143,7 @@ TEST(ThreadPool, Exception) {
     ThreadPool pool{1u};
     auto f = pool.submit([] { throw std::runtime_error{"Error"}; });
 
-    try {
-        f.get();
-    } catch (std::runtime_error& e) {
-        EXPECT_STREQ(e.what(), "Error");
-    }
+    EXPECT_THROW(f.get(), std::runtime_error);
 }
 
 TEST(ThreadPool, capacity) {
