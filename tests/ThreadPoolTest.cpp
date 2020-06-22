@@ -169,3 +169,39 @@ TEST(ThreadPool, FunctionWithArgs) {
     auto f = pool.submit(sum, 2, 2);
     EXPECT_EQ(f.get(), 4);
 }
+
+TEST(ThreadPool, ThreadsAreReused) {
+    const size_t THREAD_COUNT{4u};
+    ThreadPool pool{THREAD_COUNT};
+    std::vector<std::future<std::thread::id>> futures;
+    std::set<std::thread::id> thread_ids;
+
+    for (size_t i = 0u; i < THREAD_COUNT; ++i) {
+        futures.push_back(pool.submit([delay = i] {
+            std::this_thread::sleep_for(std::chrono::milliseconds(delay + 1));
+            std::cout << std::this_thread::get_id() << std::endl;
+            return std::this_thread::get_id();
+        }));
+    }
+
+    for (size_t i = 0u; i < THREAD_COUNT; ++i) {
+        auto r = futures[i].get();
+        std::cout << r << std::endl;
+        thread_ids.insert(r);
+    }
+
+    futures.clear();
+
+    for (size_t i = 0u; i < THREAD_COUNT; ++i) {
+        futures.push_back(pool.submit([delay = i] {
+            std::this_thread::sleep_for(std::chrono::milliseconds(delay + 1));
+            std::cout << std::this_thread::get_id() << std::endl;
+            return std::this_thread::get_id();
+        }));
+    }
+
+    for (size_t i = 0; i < THREAD_COUNT; ++i) {
+        auto r = futures[i].get();
+        EXPECT_TRUE(thread_ids.find(r) != thread_ids.end());
+    }
+}
