@@ -22,8 +22,7 @@ public:
         _threads.reserve(threadCount);
         try {
             for (size_t i = 0; i < threadCount; ++i) {
-                _threads.push_back(
-                    std::thread{&ThreadPool::workerThread, this});
+                _threads.emplace_back(&ThreadPool::workerThread, this);
             }
         } catch (...) {
             _done = true;
