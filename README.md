@@ -1,6 +1,7 @@
 [![License](https://img.shields.io/github/license/f-squirrel/thread_pool)](https://github.com/f-squirrel/thread_pool/blob/master/LICENSE)
 [![CI](https://github.com/f-squirrel/thread_pool/workflows/CI/badge.svg)](https://github.com/f-squirrel/thread_pool/actions)
 [![Coverity Scan](https://img.shields.io/coverity/scan/21392.svg)](https://scan.coverity.com/projects/f-squirrel_thread_pool)
+[![Coverage Status](https://coveralls.io/repos/github/f-squirrel/thread_pool/badge.svg?branch=master)](https://coveralls.io/github/f-squirrel/thread_pool?branch=master)
 
 Thread Pool
 ===========

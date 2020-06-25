@@ -14,6 +14,8 @@ string(APPEND CMAKE_CXX_FLAGS " -Werror")
 # clangd completion
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+option(TEST_COVERAGE "Test coverage" OFF)
+
 project(thread_pool)
 include(CTest)
 if(BUILD_TESTING)
