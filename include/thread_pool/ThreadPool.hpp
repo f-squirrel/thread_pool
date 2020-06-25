@@ -17,7 +17,7 @@ public:
         size_t threadCount = std::thread::hardware_concurrency())
         : _done{false}, _joiner{_threads} {
         if (0u == threadCount) {
-            threadCount = 4u;
+            threadCount = 1u;
         }
         _threads.reserve(threadCount);
         try {

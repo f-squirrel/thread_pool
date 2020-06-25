@@ -13,6 +13,16 @@
 using namespace thread_pool;
 using namespace std::chrono_literals;
 
+TEST(ThreadPool, CheckDefaultNumberOfThreads) {
+    ThreadPool pool;
+    EXPECT_EQ(pool.capacity(), std::thread::hardware_concurrency());
+}
+
+TEST(ThreadPool, CheckNumberOfThreadsIfHardwareConcurrency0) {
+    ThreadPool pool(0);
+    EXPECT_EQ(pool.capacity(), 1);
+}
+
 TEST(ThreadPool, RunMoreTasksThanThreads) {
     const size_t THREAD_COUNT{2u};
     const size_t TASK_COUNT{20u};
