@@ -23,9 +23,9 @@ jobs:
         sudo make install
         cd $GITHUB_WORKSPACE
         echo $GITHUB_WORKSPACE
-    - name: Install Coverall
-      run: |
-        sudo apt-get install -y lcov
+        #- name: Install Coverall
+        #  run: |
+        #    sudo apt-get install -y lcov
     - name: CMake
       run: |
           mkdir build && cd build
