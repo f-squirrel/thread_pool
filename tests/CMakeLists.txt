@@ -1,10 +1,9 @@
 include_directories(${CMAKE_SOURCE_DIR}/include)
 file(GLOB SOURCES "*.cpp")
 
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
-
 if(TEST_COVERAGE)
     if(CMAKE_COMPILER_IS_GNUCXX)
+        list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
         include(CodeCoverage)
         append_coverage_compiler_flags()
         setup_target_for_coverage_lcov(
