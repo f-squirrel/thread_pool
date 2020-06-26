@@ -29,7 +29,7 @@ jobs:
     - name: CMake
       run: |
           mkdir build && cd build
-          CC=gcc CXX=g++ cmake -DTEST_COVERAGE=ON ..
+          CC=gcc CXX=g++ cmake -DTEST_COVERAGE=ON -DBUILD_TESTING=ON -DCMAKE_BUILD_TYPE=Debug ..
     - name: Check coverage
       run: |
           cd build
