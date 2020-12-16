@@ -3,7 +3,7 @@ file(GLOB SOURCES "*.cpp")
 
 if(TEST_COVERAGE)
     if(CMAKE_COMPILER_IS_GNUCXX)
-        list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+        list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake-modules")
         include(CodeCoverage)
         append_coverage_compiler_flags()
         setup_target_for_coverage_lcov(
