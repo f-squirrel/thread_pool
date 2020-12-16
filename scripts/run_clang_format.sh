@@ -1,10 +1,12 @@
 #!/bin/bash
 
 if [[ -n $2 ]]; then
-    find $1 -path ${1}/build -prune -o \( -name '*.hpp' -or -name '*.cpp' \) \
+     find ${1} -type d \( -path ${1}/build -o -path ${1}/cmake-modules \) -prune -false -o \( -name '*.hpp' -or -name '*.cpp' \) \
         -exec clang-format -verbose -style=file -fallback-style=none $2 {} \;
 else
-    NUMBER_OF_CHANGES=$(find $1 -path ${1}/build -prune -o \( -name '*.hpp' -or -name '*.cpp' \) \
+    #find . -type d \( -path ${1}/build -o -path ${1}/cmake-modules \) -prune -false -o \( -name '*.hpp' -or -name '*.cpp' \)
+
+    NUMBER_OF_CHANGES=$(find ${1} -type d \( -path ${1}/build -o -path ${1}/cmake-modules \) -prune -false -o \( -name '*.hpp' -or -name '*.cpp' \) \
         -exec clang-format -verbose -style=file -fallback-style=none -output-replacements-xml {} \; \
       | grep "<replacement offset" \
       | wc -l)
