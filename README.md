@@ -14,6 +14,7 @@ The library is header-only and supposed to be compatible with any C++ 11/14 comp
 
 ## Build ##
 ```sh
+git clone --recursive https://github.com/f-squirrel/thread_pool.git
 cd thread_pool
 mkdir build && cd build
 cmake -DBUILD_TESTING=ON ..
