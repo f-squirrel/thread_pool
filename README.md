@@ -7,7 +7,7 @@ Thread Pool
 ===========
 
 
-This is a C++ 11/14 thread pool implementation inspired by "C++ Concurrency in Action: Practical Multithreading" by Anthony Williams.
+This is a C++ 11/14 thread pool implementation inspired by ["C++ Concurrency in Action: Practical Multithreading"](https://www.amazon.com/C-Concurrency-Action-Practical-Multithreading/dp/1933988770) by Anthony Williams.
 
 The library is header-only and supposed to be compatible with any C++ 11/14 compiler.
 <br>The only 3rd party is Google Test, and it is optional.
