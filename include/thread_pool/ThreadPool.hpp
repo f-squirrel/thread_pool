@@ -5,13 +5,50 @@
 #include <future>
 #include <mutex>
 #include <queue>
-
-#include "JoinThreads.hpp"
-#include "TaskWrapper.hpp"
+#include <thread>
+#include <vector>
 
 namespace thread_pool {
 
 class ThreadPool {
+private:
+    class TaskWrapper {
+        struct ImplBase {
+            virtual void call() = 0;
+            virtual ~ImplBase() = default;
+        };
+        std::unique_ptr<ImplBase> impl;
+
+        template <typename F>
+        struct ImplType : ImplBase {
+            F f;
+            ImplType(F&& f_) : f{std::move(f_)} {}
+            void call() final { f(); }
+        };
+
+    public:
+        template <typename F>
+        TaskWrapper(F&& f)
+            : impl{std::make_unique<ImplType<F>>(std::move(f))} {}
+
+        auto operator()() { impl->call(); }
+    };
+
+    class JoinThreads {
+    public:
+        explicit JoinThreads(std::vector<std::thread>& threads)
+            : _threads{threads} {}
+
+        ~JoinThreads() {
+            for (auto& t : _threads) {
+                t.join();
+            }
+        }
+
+    private:
+        std::vector<std::thread>& _threads;
+    };
+
 public:
     explicit ThreadPool(
         size_t threadCount = std::thread::hardware_concurrency())
