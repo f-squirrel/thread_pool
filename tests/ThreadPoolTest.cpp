@@ -32,7 +32,7 @@
 
 #include <thread_pool/ThreadPool.hpp>
 
-using namespace thread_pool;
+using namespace THREAD_POOL_NAMESPACE_NAME;
 using namespace std::chrono_literals;
 
 TEST(ThreadPool, CheckDefaultNumberOfThreads) {
