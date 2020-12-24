@@ -30,7 +30,11 @@
 #include <thread>
 #include <vector>
 
-namespace thread_pool {
+#ifndef THREAD_POOL_NAMESPACE_NAME
+#define THREAD_POOL_NAMESPACE_NAME thread_pool
+#endif
+
+namespace THREAD_POOL_NAMESPACE_NAME {
 
 class ThreadPool {
 private:
@@ -144,4 +148,4 @@ private:
     std::vector<std::thread> _threads;
     JoinThreads _joiner;
 };
-} // namespace thread_pool
+} // namespace THREAD_POOL_NAMESPACE_NAME

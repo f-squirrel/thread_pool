@@ -14,6 +14,10 @@ string(APPEND CMAKE_CXX_FLAGS " -Werror")
 # clangd completion
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+if(THREAD_POOL_NAMESPACE_NAME)
+add_definitions(-DTHREAD_POOL_NAMESPACE_NAME=${THREAD_POOL_NAMESPACE_NAME})
+endif()
+
 option(TEST_COVERAGE "Test coverage" OFF)
 
 project(thread_pool)
