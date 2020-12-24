@@ -22,3 +22,9 @@ make
 make test
 make install
 ```
+
+## Change the default namespace
+
+The default namespace is `thread_pool`, there are two ways to change it:
+* Via compilation flags `-DTHREAD_POOL_NAMESPACE_NAME=<your favorite namespace>`.
+* Via changing `#define THREAD_POOL_NAMESPACE_NAME thread_pool` in ThreadPool.hpp.
