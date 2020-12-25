@@ -41,3 +41,28 @@ There are two ways to integrate `thread_pool` in a project:
 2. Just copy the
 [thread_pool](https://github.com/f-squirrel/thread_pool/tree/master/include/thread_pool)
 directory to your project directory
+
+## Example
+
+```cpp
+#include <iostream>
+#include <thread_pool/ThreadPool.hpp>
+
+int sum(int a, int b) {
+    return a + b;
+}
+
+int main() {
+
+    thread_pool::ThreadPool pool{4u};
+    auto fi = pool.submit(sum, 40, 2);
+    auto fs = pool.submit([] { return std::string{"42"}; });
+    auto fv = pool.submit([] { std::cout << "void function\n"; });
+    std::cout << fi.get() << std::endl;
+    std::cout << fs.get() << std::endl;
+    // void
+    fv.wait();
+}
+```
+
+For more examples, please refer to the [unit tests](https://github.com/f-squirrel/thread_pool/tree/master/tests).
