@@ -28,3 +28,16 @@ make install
 The default namespace is `thread_pool`, there are two ways to change it:
 * Via compilation flags `-DTHREAD_POOL_NAMESPACE_NAME=<your favorite namespace>`.
 * Via changing `#define THREAD_POOL_NAMESPACE_NAME thread_pool` in ThreadPool.hpp.
+
+## Integration
+
+There are two ways to integrate `thread_pool` in a project:
+1. Git submodule
+    * Add this repository as a git submodule to your project.
+    * Add the thread_pool/include to your include path:
+        ```
+        include_directories(${CMAKE_SOURCE_DIR}/submodules/thread_pool/include)
+        ```    
+2. Just copy the
+[thread_pool](https://github.com/f-squirrel/thread_pool/tree/master/include/thread_pool)
+directory to your project directory
