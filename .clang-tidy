@@ -1,0 +1,33 @@
+---
+Checks:             '-*,bugprone-*,
+                    -bugprone-exception-escape,
+                    performance-*,
+                    misc-*,
+                    -misc-non-private-member-variables-in-classes,
+                    modernize-*,
+                    -modernize-use-trailing-return-type,
+                    -modernize-avoid-bind,
+                    readability-*,
+                    -readability-uppercase-literal-suffix,
+                    -readability-redundant-access-specifiers,
+                    '
+WarningsAsErrors:   'bugprone-*,
+                    -bugprone-exception-escape,
+                    performance-*,
+                    misc-*,
+                    -misc-non-private-member-variables-in-classes,
+                    modernize-*,
+                    -modernize-use-trailing-return-type,
+                    -modernize-avoid-bind,
+                    readability-*,
+                    -readability-uppercase-literal-suffix,
+                    -readability-redundant-access-specifiers,
+                    '
+
+# Include all headers in the project
+HeaderFilterRegex: 'thread_pool'
+AnalyzeTemporaryDtors: false
+FormatStyle:     file
+CheckOptions:
+    - { key:  performance-unnecessary-value-param.AllowedTypes, value:  'shared_ptr;SharedPtr;[Ll]og' }
+...

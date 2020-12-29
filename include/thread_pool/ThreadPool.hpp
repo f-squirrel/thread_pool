@@ -28,6 +28,7 @@
 #include <mutex>
 #include <queue>
 #include <thread>
+#include <utility>
 #include <vector>
 
 #ifndef THREAD_POOL_NAMESPACE_NAME
@@ -48,14 +49,13 @@ private:
         template <typename F>
         struct ImplType : ImplBase {
             F f;
-            ImplType(F&& f_) : f{std::move(f_)} {}
+            ImplType(F&& f_) : f{std::forward<F>(f_)} {}
             void call() final { f(); }
         };
 
     public:
         template <typename F>
-        TaskWrapper(F&& f)
-            : impl{std::make_unique<ImplType<F>>(std::move(f))} {}
+        TaskWrapper(F f) : impl{std::make_unique<ImplType<F>>(std::move(f))} {}
 
         auto operator()() { impl->call(); }
     };
@@ -127,8 +127,9 @@ private:
         while (!_done) {
             std::unique_lock<std::mutex> l{_queue.m};
             _queue.cv.wait(l, [&] { return !_queue.q.empty() || _done; });
-            if (_done)
+            if (_done) {
                 break;
+            }
             auto task = std::move(_queue.q.front());
             _queue.q.pop();
             l.unlock();
