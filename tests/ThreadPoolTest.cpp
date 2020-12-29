@@ -73,9 +73,10 @@ TEST(ThreadPool, RunMoreTasksThanThreads) {
 
 TEST(ThreadPool, VariousTypesOfTasks) {
     ThreadPool pool{2u};
-    auto fi = pool.submit([] { return 42; });
+    constexpr int MAGIC_NUMBER = 42;
+    auto fi = pool.submit([] { return MAGIC_NUMBER; });
     auto fs = pool.submit([] { return std::string{"42"}; });
-    EXPECT_EQ(fi.get(), 42);
+    EXPECT_EQ(fi.get(), MAGIC_NUMBER);
     EXPECT_EQ(fs.get(), std::string{"42"});
 }
 
@@ -122,7 +123,7 @@ TEST(ThreadPool, FunctionWithArgs) {
     EXPECT_EQ(f.get(), 4);
 }
 
-static std::thread::id test_function(size_t delay) {
+static std::thread::id testFunction(size_t delay) {
     std::this_thread::sleep_for(std::chrono::milliseconds(delay + 1));
     return std::this_thread::get_id();
 }
@@ -134,7 +135,7 @@ TEST(ThreadPool, ThreadsAreReused) {
     std::set<std::thread::id> thread_ids;
 
     for (size_t i = 0u; i < THREAD_COUNT; ++i) {
-        futures.push_back(pool.submit(test_function, i));
+        futures.push_back(pool.submit(testFunction, i));
     }
 
     for (size_t i = 0u; i < THREAD_COUNT; ++i) {
@@ -147,7 +148,7 @@ TEST(ThreadPool, ThreadsAreReused) {
     futures.clear();
 
     for (size_t i = 0u; i < THREAD_COUNT; ++i) {
-        futures.push_back(pool.submit(test_function, i));
+        futures.push_back(pool.submit(testFunction, i));
     }
 
     for (size_t i = 0; i < THREAD_COUNT; ++i) {
