@@ -4,14 +4,16 @@
 [![Coverity Scan](https://img.shields.io/coverity/scan/21392.svg)](https://scan.coverity.com/projects/f-squirrel_thread_pool)
 [![Coverage Status](https://coveralls.io/repos/github/f-squirrel/thread_pool/badge.svg?branch=master)](https://coveralls.io/github/f-squirrel/thread_pool?branch=master)
 
-Thread Pool
+C++ Thread Pool
 ===========
 
 
-This is a C++ 11/14 thread pool implementation inspired by ["C++ Concurrency in Action: Practical Multithreading"](https://www.amazon.com/C-Concurrency-Action-Practical-Multithreading/dp/1933988770) by Anthony Williams.
+This is a C++ 11/14 thread pool header-only implementation inspired by ["C++ Concurrency in Action: Practical
+Multithreading"](https://www.amazon.com/C-Concurrency-Action-Practical-Multithreading/dp/1933988770) by Anthony
+Williams.
 
 The library is header-only and supposed to be compatible with any C++ 11/14 compiler.
-<br>The only 3rd party is Google Test, and it is optional.
+<br>The only 3rd party is Google Test but it is optional.
 
 ## Example of usage
 
@@ -38,17 +40,6 @@ int main() {
 
 For more examples, please refer to the [unit tests](https://github.com/f-squirrel/thread_pool/tree/master/tests).
 
-## Build ##
-```sh
-git clone --recursive https://github.com/f-squirrel/thread_pool.git
-cd thread_pool
-mkdir build && cd build
-cmake -DBUILD_TESTING=ON ..
-make
-make test
-make install
-```
-
 ## Change the default namespace
 
 The default namespace is `thread_pool`, there are two ways to change it:
@@ -57,7 +48,7 @@ The default namespace is `thread_pool`, there are two ways to change it:
 
 ## Integration
 
-There are two ways to integrate `thread_pool` in a project:
+There are three ways to integrate `thread_pool` in a project:
 1. Git submodule
     * Add this repository as a git submodule to your project.
     * Add the thread_pool/include to your include path:
@@ -67,3 +58,14 @@ There are two ways to integrate `thread_pool` in a project:
 2. Just copy the
 [thread_pool](https://github.com/f-squirrel/thread_pool/tree/master/include/thread_pool)
 directory to your project directory
+3. Build the project and run `sudo make install`.
+
+## Build ##
+```sh
+git clone --recursive https://github.com/f-squirrel/thread_pool.git
+cd thread_pool
+mkdir build && cd build
+cmake -DBUILD_TESTING=ON ..
+make
+make test
+```
